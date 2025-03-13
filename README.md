@@ -31,4 +31,4 @@
 9. Управление персоналом: ведение базы данных всех сотрудников с указанием должности, контактной информации и графика работы.
 10. Безопасность и конфиденциальность: обеспечение защиты персональных данных и медицинской информации.
 
-![схема медицинского центра](https://github.com/netblinhorek/individual-project-med-center/blob/main/scheme/scheme_about_project.png?raw=true)
+![схема медицинского центра](https://github.com/netblinhorek/individual-project-med-center/blob/main/scheme/photo%20scheme%20about%20project.png?raw=true)
