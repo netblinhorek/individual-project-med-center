@@ -31,8 +31,8 @@
 9. Управление персоналом: ведение базы данных всех сотрудников с указанием должности, контактной информации и графика работы.
 10. Безопасность и конфиденциальность: обеспечение защиты персональных данных и медицинской информации.
 
-
+#Контейнер TVector
 С проведённым исследованием можно ознакомиться здесь: https://github.com/netblinhorek/individual-project-med-center/blob/main/source/Research_of_STL_vector.pdf
 
 
-![схема медицинского центра](https://github.com/netblinhorek/individual-project-med-center/blob/main/scheme/photo%20scheme%20about%20project.png?raw=true)
+![схема медицинского центра](https://github.com/netblinhorek/individual-project-med-center/blob/main/source/photo%20scheme%20about%20project.png?raw=true)
