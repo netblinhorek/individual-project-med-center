@@ -32,3 +32,4 @@
 10. Безопасность и конфиденциальность: обеспечение защиты персональных данных и медицинской информации.
 
 ![схема медицинского центра](https://github.com/netblinhorek/individual-project-med-center/blob/main/scheme/photo%20scheme%20about%20project.png?raw=true)
+С проведённым исследованием можно ознакомиться здесь: https://github.com/netblinhorek/individual-project-med-center/blob/main/source/Research_of_STL_vector.pdf
