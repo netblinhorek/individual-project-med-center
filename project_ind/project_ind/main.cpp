@@ -145,6 +145,145 @@ bool test_4_assignment_operator() {
     return TestSystem::check(expected_result, actual_result);
 }
 
+// Тест метода push_back
+bool test_5_push_back() {
+    TVector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+
+    bool expected_result = true;
+    bool actual_result = (vec.get_size() == 3 &&
+        vec[0] == 1 &&
+        vec[1] == 2 &&
+        vec[2] == 3);
+    return TestSystem::check(expected_result, actual_result);
+}
+
+// Тест метода pop_back
+bool test_6_pop_back() {
+    TVector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+    vec.pop_back();
+
+    bool expected_result = true;
+    bool actual_result = (vec.get_size() == 2 &&
+        vec[0] == 1 &&
+        vec[1] == 2);
+    return TestSystem::check(expected_result, actual_result);
+}
+
+// Тест метода clear
+bool test_7_clear() {
+    TVector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+    vec.clear();
+
+    bool expected_result = true;
+    bool actual_result = (vec.get_size() == 0);
+    return TestSystem::check(expected_result, actual_result);
+}
+
+// Тест метода empty
+bool test_8_empty() {
+    TVector<int> vec;
+    bool expected_result = true;
+    bool actual_result = vec.empty();
+
+    vec.push_back(1);
+    bool expected_result2 = false;
+    bool actual_result2 = vec.empty();
+
+    return TestSystem::check(expected_result, actual_result) &&
+        TestSystem::check(expected_result2, actual_result2);
+}
+
+// Тест оператора []
+bool test_9_operator_brackets() {
+    TVector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+
+    bool expected_result = true;
+    bool actual_result = (vec[0] == 1 &&
+        vec[1] == 2 &&
+        vec[2] == 3);
+
+    // Проверка изменения элементов
+    vec[0] = 10;
+    vec[1] = 20;
+    vec[2] = 30;
+
+    bool expected_result2 = true;
+    bool actual_result2 = (vec[0] == 10 &&
+        vec[1] == 20 &&
+        vec[2] == 30);
+
+    return TestSystem::check(expected_result, actual_result) &&
+        TestSystem::check(expected_result2, actual_result2);
+}
+
+// Тест метода at
+bool test_10_at() {
+    TVector<int> vec;
+    vec.push_back(1);
+    vec.push_back(2);
+    vec.push_back(3);
+
+    bool expected_result = true;
+    bool actual_result = (vec.at(0) == 1 &&
+        vec.at(1) == 2 &&
+        vec.at(2) == 3);
+
+    // Проверка изменения элементов
+    vec.at(0) = 10;
+    vec.at(1) = 20;
+    vec.at(2) = 30;
+
+    bool expected_result2 = true;
+    bool actual_result2 = (vec.at(0) == 10 &&
+        vec.at(1) == 20 &&
+        vec.at(2) == 30);
+
+    return TestSystem::check(expected_result, actual_result) &&
+        TestSystem::check(expected_result2, actual_result2);
+}
+
+// Тест метода reserve
+bool test_11_reserve() {
+    TVector<int> vec;
+    vec.reserve(10);
+
+    bool expected_result = true;
+    bool actual_result = (vec.get_capacity() >= 10);
+
+    // Проверка, что размер не изменился
+    bool expected_result2 = true;
+    bool actual_result2 = (vec.get_size() == 0);
+
+    return TestSystem::check(expected_result, actual_result) &&
+        TestSystem::check(expected_result2, actual_result2);
+}
+
+// Тест метода get_capacity
+bool test_12_get_capacity() {
+    TVector<int> vec;
+    bool expected_result = true;
+    bool actual_result = (vec.get_capacity() == 0);
+
+    vec.reserve(5);
+    bool expected_result2 = true;
+    bool actual_result2 = (vec.get_capacity() >= 5);
+
+    return TestSystem::check(expected_result, actual_result) &&
+        TestSystem::check(expected_result2, actual_result2);
+}
+
 int main() {
     TestSystem::print_init_info();
 
@@ -152,6 +291,14 @@ int main() {
     TestSystem::start_test(test_2_size_constructor, "TVector.test_2_size_constructor");
     TestSystem::start_test(test_3_copy_constructor, "TVector.test_3_copy_constructor");
     TestSystem::start_test(test_4_assignment_operator, "TVector.test_4_assignment_operator");
+    TestSystem::start_test(test_5_push_back, "TVector.test_5_push_back");
+    TestSystem::start_test(test_6_pop_back, "TVector.test_6_pop_back");
+    TestSystem::start_test(test_7_clear, "TVector.test_7_clear");
+    TestSystem::start_test(test_8_empty, "TVector.test_8_empty");
+    TestSystem::start_test(test_9_operator_brackets, "TVector.test_9_operator_brackets");
+    TestSystem::start_test(test_10_at, "TVector.test_10_at");
+    TestSystem::start_test(test_11_reserve, "TVector.test_11_reserve");
+    TestSystem::start_test(test_12_get_capacity, "TVector.test_12_get_capacity");
 
     TestSystem::print_final_info();
     system("pause");
