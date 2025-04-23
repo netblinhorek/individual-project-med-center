@@ -23,6 +23,8 @@
 #include "equipment.h"
 #include "schedule.cpp"
 #include "schedule.h"
+#include "tvector.cpp"
+#include "tvector.h"
 
 
 #include <cstdio>
