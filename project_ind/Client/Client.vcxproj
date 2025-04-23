@@ -104,11 +104,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Client%27s_documents;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Client%27s_documents;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,6 +135,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client's_documents\Client's_documents.vcxproj">
+      <Project>{b4aa4715-7558-4ba5-ba3b-87eef2a4ffc9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\FIO\FIO.vcxproj">
+      <Project>{49834edb-f329-4aa6-923a-a567685b6530}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TVector\TVector.vcxproj">
+      <Project>{27634a07-0ab4-4e43-8785-038aa4bad8d6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -104,11 +104,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Date;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Time_for_registration;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Client;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Doctors;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Date;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Time_for_registration;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Client;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Doctors;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,6 +135,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="visiting.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cabinet\Cabinet.vcxproj">
+      <Project>{110c2bf8-653b-4309-bc36-4bf9bcb30a1e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Date\Date.vcxproj">
+      <Project>{727a7624-4702-482b-aea2-7f08009b9b41}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Doctors\Doctors.vcxproj">
+      <Project>{bc843e49-cf2d-4cfd-b3a9-a55ecfa3407c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Time_for_registration\Time_for_registration.vcxproj">
+      <Project>{79a14680-4737-4dcc-96d6-f5deba962687}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

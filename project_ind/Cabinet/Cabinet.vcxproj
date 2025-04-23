@@ -104,11 +104,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Equipment;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Equipment;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,6 +135,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cabinet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Equipment\Equipment.vcxproj">
+      <Project>{b92d22bc-7dd0-4a2e-9c86-b635f8bc28e1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TVector\TVector.vcxproj">
+      <Project>{27634a07-0ab4-4e43-8785-038aa4bad8d6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

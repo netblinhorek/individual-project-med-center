@@ -104,11 +104,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Employee;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Doctors;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Employee;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,6 +135,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="doctors.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cabinet\Cabinet.vcxproj">
+      <Project>{110c2bf8-653b-4309-bc36-4bf9bcb30a1e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Employee\Employee.vcxproj">
+      <Project>{72cf7e56-d3f6-4fce-ad53-a3152b34dc4d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\FIO\FIO.vcxproj">
+      <Project>{49834edb-f329-4aa6-923a-a567685b6530}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\TVector\TVector.vcxproj">
+      <Project>{27634a07-0ab4-4e43-8785-038aa4bad8d6}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
