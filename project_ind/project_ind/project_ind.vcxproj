@@ -52,6 +52,9 @@
     <ProjectReference Include="..\Schedule\Schedule.vcxproj">
       <Project>{da8146cb-bf44-46ff-9306-98e93d5b3341}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Service\Service.vcxproj">
+      <Project>{0b5ddc3a-3bc7-4156-a53d-a688df4a1dcd}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Time_for_registration\Time_for_registration.vcxproj">
       <Project>{79a14680-4737-4dcc-96d6-f5deba962687}</Project>
     </ProjectReference>
@@ -149,12 +152,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\redmi\source\repos\project_ind\Cabinet;C:\Users\redmi\source\repos\project_ind\Calendar_of_dates;C:\Users\redmi\source\repos\project_ind\Client;C:\Users\redmi\source\repos\project_ind\Client%27s_documents;C:\Users\redmi\source\repos\project_ind\Date;C:\Users\redmi\source\repos\project_ind\Doctors;C:\Users\redmi\source\repos\project_ind\Employee;C:\Users\redmi\source\repos\project_ind\Equipment;C:\Users\redmi\source\repos\project_ind\FIO;C:\Users\redmi\source\repos\project_ind\Schedule;C:\Users\redmi\source\repos\project_ind\Time_for_registration;C:\Users\redmi\source\repos\project_ind\Visiting;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\redmi\source\repos\project_ind\Cabinet;C:\Users\redmi\source\repos\project_ind\Calendar_of_dates;C:\Users\redmi\source\repos\project_ind\Client;C:\Users\redmi\source\repos\project_ind\Client%27s_documents;C:\Users\redmi\source\repos\project_ind\Date;C:\Users\redmi\source\repos\project_ind\Doctors;C:\Users\redmi\source\repos\project_ind\Employee;C:\Users\redmi\source\repos\project_ind\Equipment;C:\Users\redmi\source\repos\project_ind\FIO;C:\Users\redmi\source\repos\project_ind\Schedule;C:\Users\redmi\source\repos\project_ind\Time_for_registration;C:\Users\redmi\source\repos\project_ind\Visiting;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Service;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\redmi\source\repos\project_ind\Cabinet;C:\Users\redmi\source\repos\project_ind\Calendar_of_dates;C:\Users\redmi\source\repos\project_ind\Client;C:\Users\redmi\source\repos\project_ind\Client%27s_documents;C:\Users\redmi\source\repos\project_ind\Date;C:\Users\redmi\source\repos\project_ind\Doctors;C:\Users\redmi\source\repos\project_ind\Employee;C:\Users\redmi\source\repos\project_ind\Equipment;C:\Users\redmi\source\repos\project_ind\FIO;C:\Users\redmi\source\repos\project_ind\Schedule;C:\Users\redmi\source\repos\project_ind\Time_for_registration;C:\Users\redmi\source\repos\project_ind\Visiting;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\redmi\source\repos\project_ind\Cabinet;C:\Users\redmi\source\repos\project_ind\Calendar_of_dates;C:\Users\redmi\source\repos\project_ind\Client;C:\Users\redmi\source\repos\project_ind\Client%27s_documents;C:\Users\redmi\source\repos\project_ind\Date;C:\Users\redmi\source\repos\project_ind\Doctors;C:\Users\redmi\source\repos\project_ind\Employee;C:\Users\redmi\source\repos\project_ind\Equipment;C:\Users\redmi\source\repos\project_ind\FIO;C:\Users\redmi\source\repos\project_ind\Schedule;C:\Users\redmi\source\repos\project_ind\Time_for_registration;C:\Users\redmi\source\repos\project_ind\Visiting;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Service;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -1,6 +1,8 @@
 #pragma once
 #include "date.h"
 #include "time_for_registration.h"
+#include "service.h"
+#include "tvector.h"
 #include <string>
 
 class Client;
@@ -17,6 +19,7 @@ private:
     Cabinet* cabinet;
     std::string diagnosis;
     std::string treatment;
+    TVector<Service*> services; // Список услуг, предоставленных во время посещения
 
 public:
     // Конструкторы
@@ -32,6 +35,7 @@ public:
     Cabinet* getCabinet() const;
     std::string getDiagnosis() const;
     std::string getTreatment() const;
+    const TVector<Service*>& getServices() const;
 
     // Сеттеры
     void setId(int id);
@@ -42,6 +46,12 @@ public:
     void setCabinet(Cabinet* cabinet);
     void setDiagnosis(const std::string& diagnosis);
     void setTreatment(const std::string& treatment);
+
+    // Методы для работы с услугами
+    void addService(Service* service);
+    void removeService(int serviceId);
+    Service* findService(int serviceId) const;
+    double getTotalCost() const;
 
     // Методы
     std::string getInfo() const;

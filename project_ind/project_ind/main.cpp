@@ -285,6 +285,7 @@ bool test_12_get_capacity() {
 }
 
 int main() {
+    setlocale(LC_ALL, "Russian");
     TestSystem::print_init_info();
 
     TestSystem::start_test(test_1_default_constructor, "TVector.test_1_default_constructor");
