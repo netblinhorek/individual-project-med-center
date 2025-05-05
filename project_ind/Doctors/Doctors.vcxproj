@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Employee;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Doctors;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Cabinet;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\Employee;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\TVector;C:\Users\redmi\Desktop\individual-project-med-center\individual-project-med-center\project_ind\FIO;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

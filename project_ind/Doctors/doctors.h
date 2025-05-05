@@ -1,8 +1,8 @@
 #pragma once
-#include "employee.h"
-#include "cabinet.h"
+#include "../Employee/employee.h"
+#include "../Cabinet/cabinet.h"
 #include "tvector.h"
-#include "FIO.h"
+#include "../FIO/FIO.h"
 #include <string>
 
 class Doctor : public Employee {

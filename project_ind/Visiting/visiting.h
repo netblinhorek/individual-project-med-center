@@ -1,13 +1,13 @@
 #pragma once
 #include "date.h"
-#include "time_for_registration.h"
-#include "service.h"
+#include "../Time_for_registration/time_for_registration.h"
+#include "../Service/service.h"
+#include "../Cabinet/cabinet.h"
 #include "tvector.h"
 #include <string>
 
 class Client;
 class Doctor;
-class Cabinet;
 
 class Visiting {
 private:
@@ -19,14 +19,14 @@ private:
     Cabinet* cabinet;
     std::string diagnosis;
     std::string treatment;
-    TVector<Service*> services; // Список услуг, предоставленных во время посещения
+    TVector<Service*> services; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 public:
-    // Конструкторы
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Visiting();
     Visiting(int id, const Date& date, const Time& time, Client* client, Doctor* doctor, Cabinet* cabinet);
 
-    // Геттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     int getId() const;
     Date getDate() const;
     Time getTime() const;
@@ -37,7 +37,7 @@ public:
     std::string getTreatment() const;
     const TVector<Service*>& getServices() const;
 
-    // Сеттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     void setId(int id);
     void setDate(const Date& date);
     void setTime(const Time& time);
@@ -47,12 +47,12 @@ public:
     void setDiagnosis(const std::string& diagnosis);
     void setTreatment(const std::string& treatment);
 
-    // Методы для работы с услугами
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     void addService(Service* service);
     void removeService(int serviceId);
     Service* findService(int serviceId) const;
     double getTotalCost() const;
 
-    // Методы
+    // пїЅпїЅпїЅпїЅпїЅпїЅ
     std::string getInfo() const;
 };

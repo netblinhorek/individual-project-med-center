@@ -1,6 +1,6 @@
 #pragma once
-#include "FIO.h"
-#include "client's_documents.h"
+#include "../FIO/FIO.h"
+#include "../Client's_documents/client's_documents.h"
 #include "tvector.h"
 #include <string>
 
