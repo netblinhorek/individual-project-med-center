@@ -8,17 +8,17 @@ private:
     std::string middle_name;
 
 public:
-    // Конструкторы
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     FIO();
     FIO(const std::string&, const std::string&, const std::string&);
 
-    // Геттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     std::string get_last_name() const;
     std::string get_first_name() const;
     std::string get_middle_name() const;
     std::string get_full_name() const;
 
-    // Сеттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     void set_last_name(const std::string& last_name);
     void set_first_name(const std::string& first_name);
     void set_middle_name(const std::string& middle_name);

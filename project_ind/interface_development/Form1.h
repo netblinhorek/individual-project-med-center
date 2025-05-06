@@ -426,6 +426,7 @@ namespace CppCLRWinFormsProject {
 			this->text_document->Name = L"text_document";
 			this->text_document->Size = System::Drawing::Size(293, 31);
 			this->text_document->TabIndex = 21;
+
 			// 
 			// text_seria
 			// 
@@ -632,6 +633,7 @@ namespace CppCLRWinFormsProject {
 			this->record->TabIndex = 44;
 			this->record->Text = L"Записаться на прием";
 			this->record->UseVisualStyleBackColor = true;
+			this->record->Click += gcnew System::EventHandler(this, &Form1::record_Click);
 			// 
 			// choose_a_service
 			// 
@@ -646,6 +648,7 @@ namespace CppCLRWinFormsProject {
 			this->choose_a_doctor->Name = L"choose_a_doctor";
 			this->choose_a_doctor->Size = System::Drawing::Size(257, 31);
 			this->choose_a_doctor->TabIndex = 46;
+			this->choose_a_doctor->SelectedItemChanged += gcnew System::EventHandler(this, &Form1::choose_a_doctor_SelectedItemChanged);
 			// 
 			// time_of_reception
 			// 
@@ -723,6 +726,75 @@ namespace CppCLRWinFormsProject {
 		}
 #pragma endregion
 	
+		private: System::Void choose_a_doctor_SelectedItemChanged(System::Object^ sender, System::EventArgs^ e) {
+			try {
+				String^ directory = System::IO::Path::GetDirectoryName(System::Reflection::Assembly::GetExecutingAssembly()->Location);
+				String^ filePath = System::IO::Path::Combine(directory, "data", "doctors.txt");
+
+				// Проверяем, существует ли файл
+				if (!System::IO::File::Exists(filePath)) {
+					MessageBox::Show("Файл с врачами не найден.", "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+					return;
+				}
+
+				// Читаем все строки из файла
+				array<String^>^ lines = System::IO::File::ReadAllLines(filePath);
+
+				// Очищаем ComboBox
+				choose_a_doctor->Items->Clear();
+
+				// Добавляем строки в ComboBox
+				for each (String ^ line in lines) {
+					if (!String::IsNullOrWhiteSpace(line)) {
+						choose_a_doctor->Items->Add(line);
+					}
+				}
+
+				// Устанавливаем выбранный элемент по умолчанию (если нужно)
+				if (choose_a_doctor->Items->Count > 0) {
+					choose_a_doctor->SelectedIndex = 0;
+				}
+			}
+			catch (Exception^ ex) {
+				// Обработка ошибок
+				MessageBox::Show("Произошла ошибка при загрузке списка врачей: " + ex->Message, "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+			}
+		}
+
+private: System::Void record_Click(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		// Получаем данные из элементов управления
+		String^ sename = text_sename->Text;
+		String^ name = text_name->Text;
+		String^ last_name = text_last_name->Text;
+		//String^ service = comboBoxService->SelectedItem->ToString();
+		String^ doctor = choose_a_doctor->Text;
+		String^ date = calendar->Text;
+		String^ time = time_of_reception->Text;
+		String^ cost = cost_of_reception->Text;
+
+		// Формируем строку с информацией
+		String^ info = "=== Информация о записи ===\n";
+		info += "Фамилия: " + sename + "\n";
+		info += "Имя: " + name + "\n";
+		info += "Отчество: " + last_name + "\n";
+//		info += "Услуга: " + service + "\n";
+		info += "Врач: " + doctor + "\n";
+		info += "Дата: " + date + "\n";
+		info += "Время: " + time + "\n";
+		info += "Стоимость: " + cost + "\n";
+
+		info += "===========================\n";
+
+		// Отображаем сообщение
+		MessageBox::Show(info, "Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+	catch (Exception^ ex) {
+		// Обработка ошибок
+		MessageBox::Show("Произошла ошибка: " + ex->Message, "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
+}
+
 
 };
 }

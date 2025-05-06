@@ -38,13 +38,13 @@ int Service::getDurationMinutes() const {
 std::string Service::getTypeString() const {
     switch (type) {
     case ServiceType::PRIMARY_VISIT:
-        return "Первичный прием";
+        return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
     case ServiceType::REPEAT_VISIT:
-        return "Повторный прием";
+        return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
     case ServiceType::ONE_TIME_SERVICE:
-        return "Единоразовая услуга";
+        return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
     default:
-        return "Неизвестный тип";
+        return "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ";
     }
 }
 
@@ -74,11 +74,11 @@ void Service::setDurationMinutes(int durationMinutes) {
 
 std::string Service::getInfo() const {
     std::stringstream ss;
-    ss << "Услуга #" << id << "\n"
-        << "Название: " << name << "\n"
-        << "Описание: " << description << "\n"
-        << "Цена: " << std::fixed << std::setprecision(2) << price << " руб.\n"
-        << "Тип: " << getTypeString() << "\n"
-        << "Длительность: " << durationMinutes << " мин.";
+    ss << "пїЅпїЅпїЅпїЅпїЅпїЅ #" << id << "\n"
+        << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << name << "\n"
+        << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << description << "\n"
+        << "пїЅпїЅпїЅпїЅ: " << std::fixed << std::setprecision(2) << price << " пїЅпїЅпїЅ.\n"
+        << "пїЅпїЅпїЅ: " << getTypeString() << "\n"
+        << "пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " << durationMinutes << " пїЅпїЅпїЅ.";
     return ss.str();
 }

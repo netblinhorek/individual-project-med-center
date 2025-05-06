@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 
-// Перечисление для типов услуг
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 enum class ServiceType {
-    PRIMARY_VISIT,    // Первичный прием
-    REPEAT_VISIT,     // Повторный прием
-    ONE_TIME_SERVICE  // Единоразовая услуга
+    PRIMARY_VISIT,    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    REPEAT_VISIT,     // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    ONE_TIME_SERVICE  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 };
 
 class Service {
@@ -15,15 +15,15 @@ private:
     std::string description;
     double price;
     ServiceType type;
-    int durationMinutes; // Длительность услуги в минутах
+    int durationMinutes; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 public:
-    // Конструкторы
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Service();
     Service(int id, const std::string& name, const std::string& description,
         double price, ServiceType type, int durationMinutes);
 
-    // Геттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     int getId() const;
     std::string getName() const;
     std::string getDescription() const;
@@ -32,7 +32,7 @@ public:
     int getDurationMinutes() const;
     std::string getTypeString() const;
 
-    // Сеттеры
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     void setId(int id);
     void setName(const std::string& name);
     void setDescription(const std::string& description);
@@ -40,6 +40,6 @@ public:
     void setType(ServiceType type);
     void setDurationMinutes(int durationMinutes);
 
-    // Методы
+    // пїЅпїЅпїЅпїЅпїЅпїЅ
     std::string getInfo() const;
 };
