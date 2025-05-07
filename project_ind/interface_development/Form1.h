@@ -18,8 +18,9 @@ namespace CppCLRWinFormsProject {
 		Form1(void)
 		{
 			InitializeComponent();
-			allServices = gcnew System::Collections::Generic::List<String^>();
-			serviceToDoctors = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
+			serviceToDoctors = gcnew Dictionary<String^, List<String^>^>();
+			allServices = gcnew List<String^>();
+
 			LoadTimeSlots();
 			LoadDoctors();
 			LoadServices();
@@ -738,137 +739,104 @@ namespace CppCLRWinFormsProject {
 		}
 #pragma endregion
 
-	private:
-		// Добавляем переменные для хранения данных
-		//List<String^>^ allServices = gcnew List<String^>();
-		//Dictionary<String^, List<String^>^>^ serviceToDoctors = gcnew Dictionary<String^, List<String^>^>();
-
-private: System::Void choose_a_service_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-	try {
+	private: System::Void choose_a_service_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 		if (choose_a_service->SelectedItem != nullptr) {
 			String^ selectedService = choose_a_service->SelectedItem->ToString();
 			choose_a_doctor->Items->Clear();
 
-			// Создаем словарь для соответствия услуг и специализаций
-			Dictionary<String^, String^>^ serviceSpecialization = gcnew Dictionary<String^, String^>();
 
-			// Заполняем соответствия услуг и специализаций
-			serviceSpecialization[L"Консультация кардиолога"] = L"Кардиолог";
-			serviceSpecialization[L"УЗИ сердца"] = L"Кардиолог";
-			serviceSpecialization[L"ЭКГ"] = L"Кардиолог";
-			serviceSpecialization[L"Консультация невролога"] = L"Невролог";
-			serviceSpecialization[L"МРТ головного мозга"] = L"Невролог";
-			// Добавляем другие соответствия...
+		}
+	}
+	private: System::Void choose_a_doctor_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (choose_a_doctor->SelectedItem != nullptr) {
+			String^ selectedDoctor = choose_a_doctor->SelectedItem->ToString();
+			choose_a_doctor->Items->Clear();
 
-			// Получаем необходимую специализацию
-			String^ requiredSpecialization = nullptr;
-			if (serviceSpecialization->ContainsKey(selectedService)) {
-				requiredSpecialization = serviceSpecialization[selectedService];
+
+		}
+	}
+	private: void LoadDoctors() {
+		try {
+			String^ filePath = System::IO::Path::Combine(
+				Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+				"individual-project-med-center",
+				"individual-project-med-center",
+				"project_ind",
+				"data",
+				"doctors.txt");
+
+			// Проверка существования файла
+			if (!System::IO::File::Exists(filePath)) {
+				MessageBox::Show("Файл с врачами не найден:\n" + filePath,
+					"Ошибка",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error);
+				return;
 			}
 
-			// Заполняем список врачей выбранной специализации
-			if (requiredSpecialization != nullptr && serviceToDoctors->ContainsKey(requiredSpecialization)) {
-				for each (String ^ doctor in serviceToDoctors[requiredSpecialization]) {
-					choose_a_doctor->Items->Add(doctor);
+			// Чтение файла
+			array<String^>^ lines = System::IO::File::ReadAllLines(filePath);
+			choose_a_doctor->Items->Clear();
+
+			// Обработка каждой строки
+			for each (String ^ line in lines) {
+				if (!String::IsNullOrWhiteSpace(line)) {
+					String^ doctorName = line->Trim();
+
+					// Удаляем номер, если он есть в начале строки
+					if (doctorName->Length > 0 && Char::IsDigit(doctorName[0])) {
+						int spaceIndex = doctorName->IndexOf(' ');
+						if (spaceIndex > 0) {
+							doctorName = doctorName->Substring(spaceIndex + 1)->Trim();
+						}
+					}
+
+					// Добавляем врача в список
+					if (!String::IsNullOrWhiteSpace(doctorName)) {
+						choose_a_doctor->Items->Add(doctorName);
+					}
 				}
 			}
 
-			if (choose_a_doctor->Items->Count > 0) {
-				choose_a_doctor->DroppedDown = true;
-			}
-			else {
-				MessageBox::Show(L"Нет доступных врачей для выбранной услуги",
-					L"Информация",
-					MessageBoxButtons::OK,
-					MessageBoxIcon::Information);
-			}
+			// Сортировка списка врачей
+			choose_a_doctor->Sorted = true;
 		}
-	}
-	catch (Exception^ ex) {
-		MessageBox::Show(L"Ошибка при поиске врачей:\n" + ex->Message,
-			L"Ошибка",
-			MessageBoxButtons::OK,
-			MessageBoxIcon::Error);
-	}
-}
-
-	   void LoadDoctors() {
-		   try {
-			   String^ filePath = System::IO::Path::Combine(
-				   Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
-				   "individual-project-med-center",
-				   "individual-project-med-center",
-				   "project_ind",
-				   "data",
-				   "doctors.txt");
-
-			   array<String^>^ lines = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
-			   serviceToDoctors->Clear();
-
-			   for each (String ^ line in lines) {
-				   if (!String::IsNullOrWhiteSpace(line)) {
-					   array<String^>^ parts = line->Split('|');
-					   if (parts->Length >= 5) {
-						   String^ specialty = parts[4]->Trim();
-						   String^ doctorInfo = parts[1]->Trim() + " " + parts[2]->Trim() + " " + parts[3]->Trim();
-
-						   if (!serviceToDoctors->ContainsKey(specialty)) {
-							   serviceToDoctors[specialty] = gcnew List<String^>();
-						   }
-						   serviceToDoctors[specialty]->Add(doctorInfo);
-					   }
-				   }
-			   }
-		   }
-		   catch (Exception^ ex) {
-			   MessageBox::Show(L"Ошибка загрузки врачей:\n" + ex->Message,
-				   L"Ошибка",
-				   MessageBoxButtons::OK,
-				   MessageBoxIcon::Error);
-		   }
-	   }
-
-
-private: void LoadServices() {
-	try {
-		String^ desktopPath = Environment::GetFolderPath(Environment::SpecialFolder::Desktop);
-		String^ filePath = System::IO::Path::Combine(desktopPath,
-			"individual-project-med-center",
-			"individual-project-med-center",
-			"project_ind",
-			"data",
-			"services.txt");
-
-		if (!System::IO::File::Exists(filePath)) {
-			MessageBox::Show(L"Файл услуг не найден по пути:\n" + filePath,
-				L"Ошибка",
+		catch (Exception^ ex) {
+			MessageBox::Show("Ошибка при загрузке списка врачей:\n" + ex->Message,
+				"Ошибка",
 				MessageBoxButtons::OK,
 				MessageBoxIcon::Error);
-			return;
 		}
+	}
+	
+private: void LoadServices() {
+	String^ filePath = System::IO::Path::Combine(
+		Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+		"individual-project-med-center",
+		"individual-project-med-center",
+		"project_ind",
+		"data",
+		"services.txt");
 
-		array<String^>^ services = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
-		allServices->Clear();
-		choose_a_service->Items->Clear();
+	array<String^>^ lines = System::IO::File::ReadAllLines(filePath);
+	allServices->Clear();
+	choose_a_service->Items->Clear();
 
-		for each (String ^ service in services) {
-			if (!String::IsNullOrWhiteSpace(service)) {
-				String^ cleanService = service->Trim();
-				if (!String::IsNullOrWhiteSpace(cleanService)) {
-					allServices->Add(cleanService);
-					choose_a_service->Items->Add(cleanService);
+	for each (String ^ line in lines) {
+		if (!String::IsNullOrWhiteSpace(line)) {
+			String^ cleanService = line->Trim();
+			// Удаляем номер, если он есть
+			if (cleanService->Length > 0 && Char::IsDigit(cleanService[0])) {
+				int spaceIndex = cleanService->IndexOf(' ');
+				if (spaceIndex > 0) {
+					cleanService = cleanService->Substring(spaceIndex + 1)->Trim();
 				}
 			}
+			allServices->Add(cleanService);
+			choose_a_service->Items->Add(cleanService);
 		}
-
-		choose_a_service->Sorted = true;
 	}
-	catch (Exception^ ex) {
-		MessageBox::Show(L"Ошибка загрузки услуг:\n" + ex->Message,
-			L"Ошибка",
-			MessageBoxButtons::OK,
-			MessageBoxIcon::Error);
-	}
+	choose_a_service->Sorted = true;
 }
 	   private: void LoadTimeSlots() {
 		   try {
