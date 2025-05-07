@@ -4,7 +4,7 @@ namespace CppCLRWinFormsProject {
 
 	using namespace System;
 	using namespace System::ComponentModel;
-	using namespace System::Collections;
+	using namespace System::Collections::Generic;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
@@ -18,9 +18,11 @@ namespace CppCLRWinFormsProject {
 		Form1(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			allServices = gcnew System::Collections::Generic::List<String^>();
+			serviceToDoctors = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
+			
+			LoadDoctors();
+			LoadServices();
 		}
 
 	protected:
@@ -103,10 +105,18 @@ namespace CppCLRWinFormsProject {
 	private: System::Windows::Forms::Label^ label20;
 	private: System::Windows::Forms::Label^ label21;
 	private: System::Windows::Forms::Button^ record;
-	private: System::Windows::Forms::DomainUpDown^ choose_a_service;
-	private: System::Windows::Forms::DomainUpDown^ choose_a_doctor;
-	private: System::Windows::Forms::DomainUpDown^ time_of_reception;
+
+
+
 	private: System::Windows::Forms::DomainUpDown^ cost_of_reception;
+	private: System::Windows::Forms::ComboBox^ choose_a_service;
+	private: System::Windows::Forms::ComboBox^ choose_a_doctor;
+	private: System::Collections::Generic::List<String^>^ allServices;
+	private: System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ serviceToDoctors;
+	private: System::Windows::Forms::ComboBox^ time_of_reception;
+
+
+
 
 
 
@@ -122,7 +132,7 @@ namespace CppCLRWinFormsProject {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -176,10 +186,10 @@ namespace CppCLRWinFormsProject {
 			this->label20 = (gcnew System::Windows::Forms::Label());
 			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->record = (gcnew System::Windows::Forms::Button());
-			this->choose_a_service = (gcnew System::Windows::Forms::DomainUpDown());
-			this->choose_a_doctor = (gcnew System::Windows::Forms::DomainUpDown());
-			this->time_of_reception = (gcnew System::Windows::Forms::DomainUpDown());
 			this->cost_of_reception = (gcnew System::Windows::Forms::DomainUpDown());
+			this->choose_a_service = (gcnew System::Windows::Forms::ComboBox());
+			this->choose_a_doctor = (gcnew System::Windows::Forms::ComboBox());
+			this->time_of_reception = (gcnew System::Windows::Forms::ComboBox());
 			this->SuspendLayout();
 			// 
 			// name_med_center
@@ -224,7 +234,7 @@ namespace CppCLRWinFormsProject {
 			this->date->Name = L"date";
 			this->date->Size = System::Drawing::Size(191, 33);
 			this->date->TabIndex = 3;
-			this->date->Text = L"Дата приема";
+			this->date->Text = L"Дата приёма";
 			// 
 			// cost
 			// 
@@ -426,7 +436,6 @@ namespace CppCLRWinFormsProject {
 			this->text_document->Name = L"text_document";
 			this->text_document->Size = System::Drawing::Size(293, 31);
 			this->text_document->TabIndex = 21;
-
 			// 
 			// text_seria
 			// 
@@ -631,31 +640,9 @@ namespace CppCLRWinFormsProject {
 			this->record->Name = L"record";
 			this->record->Size = System::Drawing::Size(444, 78);
 			this->record->TabIndex = 44;
-			this->record->Text = L"Записаться на прием";
+			this->record->Text = L"Записаться на приём";
 			this->record->UseVisualStyleBackColor = true;
 			this->record->Click += gcnew System::EventHandler(this, &Form1::record_Click);
-			// 
-			// choose_a_service
-			// 
-			this->choose_a_service->Location = System::Drawing::Point(176, 183);
-			this->choose_a_service->Name = L"choose_a_service";
-			this->choose_a_service->Size = System::Drawing::Size(257, 31);
-			this->choose_a_service->TabIndex = 45;
-			// 
-			// choose_a_doctor
-			// 
-			this->choose_a_doctor->Location = System::Drawing::Point(176, 239);
-			this->choose_a_doctor->Name = L"choose_a_doctor";
-			this->choose_a_doctor->Size = System::Drawing::Size(257, 31);
-			this->choose_a_doctor->TabIndex = 46;
-			this->choose_a_doctor->SelectedItemChanged += gcnew System::EventHandler(this, &Form1::choose_a_doctor_SelectedItemChanged);
-			// 
-			// time_of_reception
-			// 
-			this->time_of_reception->Location = System::Drawing::Point(176, 692);
-			this->time_of_reception->Name = L"time_of_reception";
-			this->time_of_reception->Size = System::Drawing::Size(257, 31);
-			this->time_of_reception->TabIndex = 47;
 			// 
 			// cost_of_reception
 			// 
@@ -664,15 +651,40 @@ namespace CppCLRWinFormsProject {
 			this->cost_of_reception->Size = System::Drawing::Size(257, 31);
 			this->cost_of_reception->TabIndex = 48;
 			// 
+			// choose_a_service
+			// 
+			this->choose_a_service->FormattingEnabled = true;
+			this->choose_a_service->Location = System::Drawing::Point(126, 183);
+			this->choose_a_service->Name = L"choose_a_service";
+			this->choose_a_service->Size = System::Drawing::Size(316, 33);
+			this->choose_a_service->TabIndex = 49;
+			// 
+			// choose_a_doctor
+			// 
+			this->choose_a_doctor->FormattingEnabled = true;
+			this->choose_a_doctor->Location = System::Drawing::Point(99, 249);
+			this->choose_a_doctor->Name = L"choose_a_doctor";
+			this->choose_a_doctor->Size = System::Drawing::Size(334, 33);
+			this->choose_a_doctor->TabIndex = 50;
+			// 
+			// time_of_reception
+			// 
+			this->time_of_reception->FormattingEnabled = true;
+			this->time_of_reception->Location = System::Drawing::Point(126, 687);
+			this->time_of_reception->Name = L"time_of_reception";
+			this->time_of_reception->Size = System::Drawing::Size(316, 33);
+			this->time_of_reception->TabIndex = 51;
+			this->time_of_reception->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::time_of_reception_SelectedIndexChanged);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1081, 792);
-			this->Controls->Add(this->cost_of_reception);
 			this->Controls->Add(this->time_of_reception);
 			this->Controls->Add(this->choose_a_doctor);
 			this->Controls->Add(this->choose_a_service);
+			this->Controls->Add(this->cost_of_reception);
 			this->Controls->Add(this->record);
 			this->Controls->Add(this->label21);
 			this->Controls->Add(this->label20);
@@ -725,76 +737,228 @@ namespace CppCLRWinFormsProject {
 
 		}
 #pragma endregion
-	
-		private: System::Void choose_a_doctor_SelectedItemChanged(System::Object^ sender, System::EventArgs^ e) {
-			try {
-				String^ directory = System::IO::Path::GetDirectoryName(System::Reflection::Assembly::GetExecutingAssembly()->Location);
-				String^ filePath = System::IO::Path::Combine(directory, "data", "doctors.txt");
 
-				// Проверяем, существует ли файл
-				if (!System::IO::File::Exists(filePath)) {
-					MessageBox::Show("Файл с врачами не найден.", "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
-					return;
-				}
+	private:
+		// Добавляем переменные для хранения данных
+		//List<String^>^ allServices = gcnew List<String^>();
+		//Dictionary<String^, List<String^>^>^ serviceToDoctors = gcnew Dictionary<String^, List<String^>^>();
 
-				// Читаем все строки из файла
-				array<String^>^ lines = System::IO::File::ReadAllLines(filePath);
+private: System::Void choose_a_service_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		if (choose_a_service->SelectedItem != nullptr) {
+			String^ selectedService = choose_a_service->SelectedItem->ToString();
+			choose_a_doctor->Items->Clear();
 
-				// Очищаем ComboBox
-				choose_a_doctor->Items->Clear();
+			// Создаем словарь для соответствия услуг и специализаций
+			Dictionary<String^, String^>^ serviceSpecialization = gcnew Dictionary<String^, String^>();
 
-				// Добавляем строки в ComboBox
-				for each (String ^ line in lines) {
-					if (!String::IsNullOrWhiteSpace(line)) {
-						choose_a_doctor->Items->Add(line);
-					}
-				}
+			// Заполняем соответствия услуг и специализаций
+			serviceSpecialization[L"Консультация кардиолога"] = L"Кардиолог";
+			serviceSpecialization[L"УЗИ сердца"] = L"Кардиолог";
+			serviceSpecialization[L"ЭКГ"] = L"Кардиолог";
+			serviceSpecialization[L"Консультация невролога"] = L"Невролог";
+			serviceSpecialization[L"МРТ головного мозга"] = L"Невролог";
+			// Добавляем другие соответствия...
 
-				// Устанавливаем выбранный элемент по умолчанию (если нужно)
-				if (choose_a_doctor->Items->Count > 0) {
-					choose_a_doctor->SelectedIndex = 0;
+			// Получаем необходимую специализацию
+			String^ requiredSpecialization = nullptr;
+			if (serviceSpecialization->ContainsKey(selectedService)) {
+				requiredSpecialization = serviceSpecialization[selectedService];
+			}
+
+			// Заполняем список врачей выбранной специализации
+			if (requiredSpecialization != nullptr && serviceToDoctors->ContainsKey(requiredSpecialization)) {
+				for each (String ^ doctor in serviceToDoctors[requiredSpecialization]) {
+					choose_a_doctor->Items->Add(doctor);
 				}
 			}
-			catch (Exception^ ex) {
-				// Обработка ошибок
-				MessageBox::Show("Произошла ошибка при загрузке списка врачей: " + ex->Message, "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+
+			if (choose_a_doctor->Items->Count > 0) {
+				choose_a_doctor->DroppedDown = true;
+			}
+			else {
+				MessageBox::Show(L"Нет доступных врачей для выбранной услуги",
+					L"Информация",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Information);
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show(L"Ошибка при поиске врачей:\n" + ex->Message,
+			L"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+
+	   void LoadDoctors() {
+		   try {
+			   String^ filePath = System::IO::Path::Combine(
+				   Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+				   "individual-project-med-center",
+				   "individual-project-med-center",
+				   "project_ind",
+				   "data",
+				   "doctors.txt");
+
+			   array<String^>^ lines = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
+			   serviceToDoctors->Clear();
+
+			   for each (String ^ line in lines) {
+				   if (!String::IsNullOrWhiteSpace(line)) {
+					   array<String^>^ parts = line->Split('|');
+					   if (parts->Length >= 5) {
+						   String^ specialty = parts[4]->Trim();
+						   String^ doctorInfo = parts[1]->Trim() + " " + parts[2]->Trim() + " " + parts[3]->Trim();
+
+						   if (!serviceToDoctors->ContainsKey(specialty)) {
+							   serviceToDoctors[specialty] = gcnew List<String^>();
+						   }
+						   serviceToDoctors[specialty]->Add(doctorInfo);
+					   }
+				   }
+			   }
+		   }
+		   catch (Exception^ ex) {
+			   MessageBox::Show(L"Ошибка загрузки врачей:\n" + ex->Message,
+				   L"Ошибка",
+				   MessageBoxButtons::OK,
+				   MessageBoxIcon::Error);
+		   }
+	   }
+
+
+private: void LoadServices() {
+	try {
+		String^ desktopPath = Environment::GetFolderPath(Environment::SpecialFolder::Desktop);
+		String^ filePath = System::IO::Path::Combine(desktopPath,
+			"individual-project-med-center",
+			"individual-project-med-center",
+			"project_ind",
+			"data",
+			"services.txt");
+
+		if (!System::IO::File::Exists(filePath)) {
+			MessageBox::Show(L"Файл услуг не найден по пути:\n" + filePath,
+				L"Ошибка",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error);
+			return;
+		}
+
+		array<String^>^ services = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
+		allServices->Clear();
+		choose_a_service->Items->Clear();
+
+		for each (String ^ service in services) {
+			if (!String::IsNullOrWhiteSpace(service)) {
+				String^ cleanService = service->Trim();
+				if (!String::IsNullOrWhiteSpace(cleanService)) {
+					allServices->Add(cleanService);
+					choose_a_service->Items->Add(cleanService);
+				}
 			}
 		}
 
+		choose_a_service->Sorted = true;
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show(L"Ошибка загрузки услуг:\n" + ex->Message,
+			L"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+
+
+	private: System::Void time_of_reception_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		try {
+				String^ filePath = System::IO::Path::Combine(
+					Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+					"individual-project-med-center",
+					"individual-project-med-center",
+					"project_ind",
+					"data",
+					"time_slots.txt");
+
+				array<String^>^ lines = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
+				serviceToDoctors->Clear();
+			if (!System::IO::File::Exists(filePath)) {
+				MessageBox::Show(L"Файл с временными слотами не найден:\n" + filePath,
+					L"Ошибка",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Error);
+				return;
+			}
+
+			// Читаем все строки из файла
+			array<String^>^ timeSlots = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
+			time_of_reception->Items->Clear();
+
+			// Добавляем каждый временной слот в ComboBox
+			for each (String ^ timeSlot in timeSlots) {
+				if (!String::IsNullOrWhiteSpace(timeSlot)) {
+					String^ cleanTimeSlot = timeSlot->Trim();
+					if (!String::IsNullOrWhiteSpace(cleanTimeSlot)) {
+						time_of_reception->Items->Add(cleanTimeSlot);
+					}
+				}
+			}
+
+			// Если есть временные слоты, показываем выпадающий список
+			if (time_of_reception->Items->Count > 0) {
+				time_of_reception->DroppedDown = true;
+			}
+			else {
+				MessageBox::Show(L"Нет доступных временных слотов",
+					L"Информация",
+					MessageBoxButtons::OK,
+					MessageBoxIcon::Information);
+			}
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show(L"Ошибка при загрузке временных слотов:\n" + ex->Message,
+				L"Ошибка",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error);
+		}
+	}
 private: System::Void record_Click(System::Object^ sender, System::EventArgs^ e) {
 	try {
 		// Получаем данные из элементов управления
 		String^ sename = text_sename->Text;
 		String^ name = text_name->Text;
 		String^ last_name = text_last_name->Text;
-		//String^ service = comboBoxService->SelectedItem->ToString();
+		String^ service = choose_a_service->SelectedItem->ToString();
 		String^ doctor = choose_a_doctor->Text;
 		String^ date = calendar->Text;
+		//	String^ cabinet = cabinet->Text;
 		String^ time = time_of_reception->Text;
 		String^ cost = cost_of_reception->Text;
-
 		// Формируем строку с информацией
-		String^ info = "=== Информация о записи ===\n";
-		info += "Фамилия: " + sename + "\n";
-		info += "Имя: " + name + "\n";
-		info += "Отчество: " + last_name + "\n";
-//		info += "Услуга: " + service + "\n";
-		info += "Врач: " + doctor + "\n";
-		info += "Дата: " + date + "\n";
-		info += "Время: " + time + "\n";
-		info += "Стоимость: " + cost + "\n";
+		String^ info = L"=== Информация о записи ===\n";
+		info += L"Фамилия: " + sename + L"\n";
+		info += L"Имя: " + name + L"\n";
+		info += L"Отчество: " + last_name + L"\n";
+		info += L"Услуга: " + service + L"\n";
+		info += L"Врач: " + doctor + L"\n";
+		//	info += L"Кабинет: " + cabinet + L"\n";
+		info += L"Дата: " + date + L"\n";
+		info += L"Время: " + time + L"\n";
+		info += L"Стоимость: " + cost + L"\n";
 
-		info += "===========================\n";
 
-		// Отображаем сообщение
-		MessageBox::Show(info, "Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
+		info += L"===========================\n";
+
+		// Выводим сообщение
+		MessageBox::Show(info, L"Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
 	}
 	catch (Exception^ ex) {
-		// Обработка ошибок
-		MessageBox::Show("Произошла ошибка: " + ex->Message, "Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		// Обработка ошибки
+		MessageBox::Show(L"Произошла ошибка: " + ex->Message, L"Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
 	}
 }
 
-
-};
+	};
 }
