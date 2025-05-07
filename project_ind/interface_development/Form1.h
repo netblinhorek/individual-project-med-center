@@ -20,7 +20,7 @@ namespace CppCLRWinFormsProject {
 			InitializeComponent();
 			allServices = gcnew System::Collections::Generic::List<String^>();
 			serviceToDoctors = gcnew System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>();
-			
+			LoadTimeSlots();
 			LoadDoctors();
 			LoadServices();
 		}
@@ -870,7 +870,43 @@ private: void LoadServices() {
 			MessageBoxIcon::Error);
 	}
 }
+	   private: void LoadTimeSlots() {
+		   try {
+			   String^ filePath = System::IO::Path::Combine(
+				   Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+				   "individual-project-med-center",
+				   "individual-project-med-center",
+				   "project_ind",
+				   "data",
+				   "time_slots.txt");
 
+			   if (!System::IO::File::Exists(filePath)) {
+				   MessageBox::Show(L"???? ? ?????????? ??????? ?? ??????:\n" + filePath,
+					   L"??????",
+					   MessageBoxButtons::OK,
+					   MessageBoxIcon::Error);
+				   return;
+			   }
+
+			   array<String^>^ timeSlots = System::IO::File::ReadAllLines(filePath, System::Text::Encoding::UTF8);
+			   time_of_reception->Items->Clear();
+
+			   for each (String ^ timeSlot in timeSlots) {
+				   if (!String::IsNullOrWhiteSpace(timeSlot)) {
+					   String^ cleanTimeSlot = timeSlot->Trim();
+					   if (!String::IsNullOrWhiteSpace(cleanTimeSlot)) {
+						   time_of_reception->Items->Add(cleanTimeSlot);
+					   }
+				   }
+			   }
+		   }
+		   catch (Exception^ ex) {
+			   MessageBox::Show(L"?????? ??? ???????? ????????? ??????:\n" + ex->Message,
+				   L"??????",
+				   MessageBoxButtons::OK,
+				   MessageBoxIcon::Error);
+		   }
+	   }
 
 	private: System::Void time_of_reception_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
 		try {
