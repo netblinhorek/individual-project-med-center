@@ -413,6 +413,7 @@ namespace CppCLRWinFormsProject {
 			this->text_sename->Name = L"text_sename";
 			this->text_sename->Size = System::Drawing::Size(293, 31);
 			this->text_sename->TabIndex = 18;
+			this->text_sename->TextChanged += gcnew System::EventHandler(this, &Form1::text_sename_TextChanged);
 			// 
 			// text_name
 			// 
@@ -421,6 +422,7 @@ namespace CppCLRWinFormsProject {
 			this->text_name->Name = L"text_name";
 			this->text_name->Size = System::Drawing::Size(293, 31);
 			this->text_name->TabIndex = 19;
+			this->text_name->TextChanged += gcnew System::EventHandler(this, &Form1::text_name_TextChanged);
 			// 
 			// text_last_name
 			// 
@@ -429,6 +431,7 @@ namespace CppCLRWinFormsProject {
 			this->text_last_name->Name = L"text_last_name";
 			this->text_last_name->Size = System::Drawing::Size(293, 31);
 			this->text_last_name->TabIndex = 20;
+			this->text_last_name->TextChanged += gcnew System::EventHandler(this, &Form1::text_last_name_TextChanged);
 			// 
 			// text_document
 			// 
@@ -437,6 +440,7 @@ namespace CppCLRWinFormsProject {
 			this->text_document->Name = L"text_document";
 			this->text_document->Size = System::Drawing::Size(293, 31);
 			this->text_document->TabIndex = 21;
+			this->text_document->TextChanged += gcnew System::EventHandler(this, &Form1::text_document_TextChanged);
 			// 
 			// text_seria
 			// 
@@ -937,32 +941,214 @@ private: System::Void record_Click(System::Object^ sender, System::EventArgs^ e)
 		String^ service = choose_a_service->SelectedItem->ToString();
 		String^ doctor = choose_a_doctor->Text;
 		String^ date = calendar->Text;
-		//	String^ cabinet = cabinet->Text;
 		String^ time = time_of_reception->Text;
 		String^ cost = cost_of_reception->Text;
-		// Формируем строку с информацией
+
+		// Формируем строку для записи в файл
+		String^ record = String::Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}",
+			sename, name, last_name, service, doctor, date, time, cost);
+
+		// Путь к файлу с записями
+		String^ recordsPath = System::IO::Path::Combine(
+			Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+			"individual-project-med-center",
+			"individual-project-med-center",
+			"project_ind",
+			"data",
+			"records.txt");
+
+		// Записываем в файл (добавляем в конец)
+		System::IO::File::AppendAllText(recordsPath, "Запись на прием:\n" + Environment::NewLine);
+		System::IO::File::AppendAllText(recordsPath, record + Environment::NewLine);
+		
+
+		// Формируем строку с информацией для пользователя
 		String^ info = L"=== Информация о записи ===\n";
 		info += L"Фамилия: " + sename + L"\n";
 		info += L"Имя: " + name + L"\n";
 		info += L"Отчество: " + last_name + L"\n";
 		info += L"Услуга: " + service + L"\n";
 		info += L"Врач: " + doctor + L"\n";
-		//	info += L"Кабинет: " + cabinet + L"\n";
 		info += L"Дата: " + date + L"\n";
 		info += L"Время: " + time + L"\n";
 		info += L"Стоимость: " + cost + L"\n";
-
-
 		info += L"===========================\n";
+		info += L"Запись успешно сохранена в файл!";
 
-		// Выводим сообщение
 		MessageBox::Show(info, L"Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
 	}
 	catch (Exception^ ex) {
-		// Обработка ошибки
-		MessageBox::Show(L"Произошла ошибка: " + ex->Message, L"Ошибка", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		MessageBox::Show(L"Произошла ошибка при записи: " + ex->Message,
+			L"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
 	}
 }
 
-	};
+	private: System::Void text_sename_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		try {
+			// Получаем текущий текст
+			String^ input = text_sename->Text;
+
+			// Если строка не пустая
+			if (!String::IsNullOrEmpty(input)) {
+				// Проверяем на наличие цифр
+				for each (Char c in input) {
+					if (Char::IsDigit(c)) {
+						// Удаляем цифры из ввода
+						text_sename->Text = input->Replace(c.ToString(), "");
+						MessageBox::Show("Фамилия не должна содержать цифр",
+							"Ошибка ввода",
+							MessageBoxButtons::OK,
+							MessageBoxIcon::Warning);
+						return;
+					}
+				}
+
+				// Преобразуем регистр: первая буква заглавная, остальные строчные
+				if (input->Length > 0) {
+					String^ firstChar = input->Substring(0, 1)->ToUpper();
+					String^ restChars = input->Length > 1 ? input->Substring(1)->ToLower() : "";
+					text_sename->Text = firstChar + restChars;
+
+					// Перемещаем курсор в конец
+					text_sename->SelectionStart = text_sename->Text->Length;
+				}
+
+				// Ограничение длины (30 символов)
+				if (input->Length > 30) {
+					text_sename->Text = text_sename->Text->Substring(0, 30);
+					text_sename->SelectionStart = 30;
+				}
+			}
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+				"Ошибка",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error);
+		}
+	}
+private: System::Void text_name_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		// Получаем текущий текст
+		String^ input = text_name->Text;
+
+		// Если строка не пустая
+		if (!String::IsNullOrEmpty(input)) {
+			// Проверяем на наличие цифр
+			for each (Char c in input) {
+				if (Char::IsDigit(c)) {
+					// Удаляем цифры из ввода
+					text_name->Text = input->Replace(c.ToString(), "");
+					MessageBox::Show("Имя не должно содержать цифр",
+						"Ошибка ввода",
+						MessageBoxButtons::OK,
+						MessageBoxIcon::Warning);
+					return;
+				}
+			}
+
+			// Преобразуем регистр: первая буква заглавная, остальные строчные
+			if (input->Length > 0) {
+				String^ firstChar = input->Substring(0, 1)->ToUpper();
+				String^ restChars = input->Length > 1 ? input->Substring(1)->ToLower() : "";
+				text_name->Text = firstChar + restChars;
+
+				// Перемещаем курсор в конец
+				text_name->SelectionStart = text_name->Text->Length;
+			}
+
+			// Ограничение длины (30 символов)
+			if (input->Length > 30) {
+				text_name->Text = text_name->Text->Substring(0, 30);
+				text_name->SelectionStart = 30;
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: System::Void text_last_name_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_last_name->Text;
+
+		if (!String::IsNullOrEmpty(input)) {
+			// Проверка на цифры
+			for each (Char c in input) {
+				if (Char::IsDigit(c)) {
+					text_last_name->Text = input->Replace(c.ToString(), "");
+					MessageBox::Show("Отчество не должно содержать цифр",
+						"Ошибка ввода",
+						MessageBoxButtons::OK,
+						MessageBoxIcon::Warning);
+					return;
+				}
+			}
+
+			// Преобразуем регистр: первая буква заглавная, остальные строчные
+			if (input->Length > 0) {
+				String^ firstChar = input->Substring(0, 1)->ToUpper();
+				String^ restChars = input->Length > 1 ? input->Substring(1)->ToLower() : "";
+				text_last_name->Text = firstChar + restChars;
+
+				// Перемещаем курсор в конец
+				text_last_name->SelectionStart = text_last_name->Text->Length;
+			}
+
+			// Ограничение длины (30 символов)
+			if (input->Length > 30) {
+				text_last_name->Text = text_last_name->Text->Substring(0, 30);
+				text_last_name->SelectionStart = 30;
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: System::Void text_document_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_document->Text;
+
+		if (!String::IsNullOrEmpty(input)) {
+			// Проверка на цифры
+			for each (Char c in input) {
+				if (Char::IsDigit(c)) {
+					text_document->Text = input->Replace(c.ToString(), "");
+					MessageBox::Show("Наименование документа не должно содержать цифр",
+						"Ошибка ввода",
+						MessageBoxButtons::OK,
+						MessageBoxIcon::Warning);
+					return;
+				}
+			}
+
+			if (input->Length > 0) {
+				text_document->Text = input->ToLower();
+				text_document->SelectionStart = text_document->Text->Length;
+			}
+
+			// Ограничение длины
+			if (input->Length > 7) {
+				text_document->Text = input->Substring(0, 7);
+				text_document->SelectionStart = 7;
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+};
 }
