@@ -20,7 +20,7 @@ namespace CppCLRWinFormsProject {
 			InitializeComponent();
 			serviceToDoctors = gcnew Dictionary<String^, List<String^>^>();
 			allServices = gcnew List<String^>();
-
+			LoadServicesFromFile();
 			LoadTimeSlots();
 			LoadDoctors();
 			LoadServices();
@@ -52,7 +52,7 @@ namespace CppCLRWinFormsProject {
 	private: System::Windows::Forms::Label^ seria;
 	private: System::Windows::Forms::Label^ number;
 	private: System::Windows::Forms::Label^ snils;
-	public: System::Windows::Forms::MonthCalendar^ calendar;
+
 	private:
 
 	private:
@@ -109,12 +109,16 @@ namespace CppCLRWinFormsProject {
 
 
 
-	private: System::Windows::Forms::DomainUpDown^ cost_of_reception;
+
 	private: System::Windows::Forms::ComboBox^ choose_a_service;
 	private: System::Windows::Forms::ComboBox^ choose_a_doctor;
 	private: System::Collections::Generic::List<String^>^ allServices;
 	private: System::Collections::Generic::Dictionary<String^, System::Collections::Generic::List<String^>^>^ serviceToDoctors;
 	private: System::Windows::Forms::ComboBox^ time_of_reception;
+private: System::Windows::Forms::DateTimePicker^ calendar;
+private: System::Windows::Forms::ComboBox^ cost_of_reception;
+
+
 
 
 
@@ -155,7 +159,6 @@ namespace CppCLRWinFormsProject {
 			this->seria = (gcnew System::Windows::Forms::Label());
 			this->number = (gcnew System::Windows::Forms::Label());
 			this->snils = (gcnew System::Windows::Forms::Label());
-			this->calendar = (gcnew System::Windows::Forms::MonthCalendar());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->med_polis = (gcnew System::Windows::Forms::Label());
@@ -187,10 +190,11 @@ namespace CppCLRWinFormsProject {
 			this->label20 = (gcnew System::Windows::Forms::Label());
 			this->label21 = (gcnew System::Windows::Forms::Label());
 			this->record = (gcnew System::Windows::Forms::Button());
-			this->cost_of_reception = (gcnew System::Windows::Forms::DomainUpDown());
 			this->choose_a_service = (gcnew System::Windows::Forms::ComboBox());
 			this->choose_a_doctor = (gcnew System::Windows::Forms::ComboBox());
 			this->time_of_reception = (gcnew System::Windows::Forms::ComboBox());
+			this->calendar = (gcnew System::Windows::Forms::DateTimePicker());
+			this->cost_of_reception = (gcnew System::Windows::Forms::ComboBox());
 			this->SuspendLayout();
 			// 
 			// name_med_center
@@ -350,15 +354,6 @@ namespace CppCLRWinFormsProject {
 			this->snils->TabIndex = 12;
 			this->snils->Text = L"СНИЛС";
 			// 
-			// calendar
-			// 
-			this->calendar->Location = System::Drawing::Point(45, 347);
-			this->calendar->MaxDate = System::DateTime(2025, 12, 31, 0, 0, 0, 0);
-			this->calendar->MinDate = System::DateTime(2025, 1, 1, 0, 0, 0, 0);
-			this->calendar->Name = L"calendar";
-			this->calendar->TabIndex = 13;
-			this->calendar->TodayDate = System::DateTime(2025, 5, 6, 0, 0, 0, 0);
-			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
@@ -449,6 +444,7 @@ namespace CppCLRWinFormsProject {
 			this->text_seria->Name = L"text_seria";
 			this->text_seria->Size = System::Drawing::Size(293, 31);
 			this->text_seria->TabIndex = 22;
+			this->text_seria->TextChanged += gcnew System::EventHandler(this, &Form1::text_seria_TextChanged);
 			// 
 			// text_number
 			// 
@@ -457,6 +453,7 @@ namespace CppCLRWinFormsProject {
 			this->text_number->Name = L"text_number";
 			this->text_number->Size = System::Drawing::Size(293, 31);
 			this->text_number->TabIndex = 23;
+			this->text_number->TextChanged += gcnew System::EventHandler(this, &Form1::text_number_TextChanged);
 			// 
 			// text_snils
 			// 
@@ -465,6 +462,7 @@ namespace CppCLRWinFormsProject {
 			this->text_snils->Name = L"text_snils";
 			this->text_snils->Size = System::Drawing::Size(293, 31);
 			this->text_snils->TabIndex = 24;
+			this->text_snils->TextChanged += gcnew System::EventHandler(this, &Form1::text_snils_TextChanged);
 			// 
 			// text_med_polis
 			// 
@@ -473,6 +471,7 @@ namespace CppCLRWinFormsProject {
 			this->text_med_polis->Name = L"text_med_polis";
 			this->text_med_polis->Size = System::Drawing::Size(293, 31);
 			this->text_med_polis->TabIndex = 25;
+			this->text_med_polis->TextChanged += gcnew System::EventHandler(this, &Form1::text_med_polis_TextChanged);
 			// 
 			// label4
 			// 
@@ -649,13 +648,6 @@ namespace CppCLRWinFormsProject {
 			this->record->UseVisualStyleBackColor = true;
 			this->record->Click += gcnew System::EventHandler(this, &Form1::record_Click);
 			// 
-			// cost_of_reception
-			// 
-			this->cost_of_reception->Location = System::Drawing::Point(176, 737);
-			this->cost_of_reception->Name = L"cost_of_reception";
-			this->cost_of_reception->Size = System::Drawing::Size(257, 31);
-			this->cost_of_reception->TabIndex = 48;
-			// 
 			// choose_a_service
 			// 
 			this->choose_a_service->FormattingEnabled = true;
@@ -681,15 +673,32 @@ namespace CppCLRWinFormsProject {
 			this->time_of_reception->TabIndex = 51;
 			this->time_of_reception->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::time_of_reception_SelectedIndexChanged);
 			// 
+			// calendar
+			// 
+			this->calendar->Location = System::Drawing::Point(18, 347);
+			this->calendar->Name = L"calendar";
+			this->calendar->Size = System::Drawing::Size(336, 31);
+			this->calendar->TabIndex = 52;
+			// 
+			// cost_of_reception
+			// 
+			this->cost_of_reception->FormattingEnabled = true;
+			this->cost_of_reception->Location = System::Drawing::Point(187, 736);
+			this->cost_of_reception->Name = L"cost_of_reception";
+			this->cost_of_reception->Size = System::Drawing::Size(255, 33);
+			this->cost_of_reception->TabIndex = 53;
+			this->cost_of_reception->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::cost_of_reception_SelectedIndexChanged);
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(12, 25);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1081, 792);
+			this->Controls->Add(this->cost_of_reception);
+			this->Controls->Add(this->calendar);
 			this->Controls->Add(this->time_of_reception);
 			this->Controls->Add(this->choose_a_doctor);
 			this->Controls->Add(this->choose_a_service);
-			this->Controls->Add(this->cost_of_reception);
 			this->Controls->Add(this->record);
 			this->Controls->Add(this->label21);
 			this->Controls->Add(this->label20);
@@ -721,7 +730,6 @@ namespace CppCLRWinFormsProject {
 			this->Controls->Add(this->med_polis);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->label2);
-			this->Controls->Add(this->calendar);
 			this->Controls->Add(this->snils);
 			this->Controls->Add(this->number);
 			this->Controls->Add(this->seria);
@@ -932,58 +940,111 @@ private: void LoadServices() {
 				MessageBoxIcon::Error);
 		}
 	}
-private: System::Void record_Click(System::Object^ sender, System::EventArgs^ e) {
-	try {
-		// Получаем данные из элементов управления
-		String^ sename = text_sename->Text;
-		String^ name = text_name->Text;
-		String^ last_name = text_last_name->Text;
-		String^ service = choose_a_service->SelectedItem->ToString();
-		String^ doctor = choose_a_doctor->Text;
-		String^ date = calendar->Text;
-		String^ time = time_of_reception->Text;
-		String^ cost = cost_of_reception->Text;
-
-		// Формируем строку для записи в файл
-		String^ record = String::Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}",
-			sename, name, last_name, service, doctor, date, time, cost);
-
-		// Путь к файлу с записями
-		String^ recordsPath = System::IO::Path::Combine(
-			Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
-			"individual-project-med-center",
-			"individual-project-med-center",
-			"project_ind",
-			"data",
-			"records.txt");
-
-		// Записываем в файл (добавляем в конец)
-		System::IO::File::AppendAllText(recordsPath, "Запись на прием:\n" + Environment::NewLine);
-		System::IO::File::AppendAllText(recordsPath, record + Environment::NewLine);
-		
-
-		// Формируем строку с информацией для пользователя
-		String^ info = L"=== Информация о записи ===\n";
-		info += L"Фамилия: " + sename + L"\n";
-		info += L"Имя: " + name + L"\n";
-		info += L"Отчество: " + last_name + L"\n";
-		info += L"Услуга: " + service + L"\n";
-		info += L"Врач: " + doctor + L"\n";
-		info += L"Дата: " + date + L"\n";
-		info += L"Время: " + time + L"\n";
-		info += L"Стоимость: " + cost + L"\n";
-		info += L"===========================\n";
-		info += L"Запись успешно сохранена в файл!";
-
-		MessageBox::Show(info, L"Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
+private:
+	// Метод для проверки заполнения всех полей
+	bool AreAllFieldsFilled() {
+		return !String::IsNullOrEmpty(text_sename->Text) &&
+			!String::IsNullOrEmpty(text_name->Text) &&
+			!String::IsNullOrEmpty(text_last_name->Text) &&
+			choose_a_service->SelectedItem != nullptr &&
+			!String::IsNullOrEmpty(choose_a_doctor->Text) &&
+			!String::IsNullOrEmpty(calendar->Text) &&
+			!String::IsNullOrEmpty(time_of_reception->Text) &&
+			!String::IsNullOrEmpty(cost_of_reception->Text);
 	}
-	catch (Exception^ ex) {
-		MessageBox::Show(L"Произошла ошибка при записи: " + ex->Message,
-			L"Ошибка",
-			MessageBoxButtons::OK,
-			MessageBoxIcon::Error);
+
+	// Обновляет состояние кнопки "Запись"
+	void UpdateRecordButtonState() {
+		record->Enabled = AreAllFieldsFilled();
 	}
-}
+
+	// Обработчики изменения текста для всех полей
+	private: System::Void TextBox_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		UpdateRecordButtonState();
+	}
+
+	private: System::Void ComboBox_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		UpdateRecordButtonState();
+	}
+
+		   // Модифицированный метод записи
+	private: System::Void record_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (!AreAllFieldsFilled()) {
+			MessageBox::Show(L"Пожалуйста, заполните все поля перед записью!",
+				L"Неполные данные",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Warning);
+			return;
+		}
+
+		try {
+			// Получаем данные из элементов управления
+			String^ sename = text_sename->Text;
+			String^ name = text_name->Text;
+			String^ last_name = text_last_name->Text;
+			String^ service = choose_a_service->SelectedItem->ToString();
+			String^ doctor = choose_a_doctor->Text;
+			String^ date = calendar->Text;
+			String^ time = time_of_reception->Text;
+			String^ cost = cost_of_reception->Text;
+
+			// Формируем строку для записи в файл
+			String^ record = String::Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}",
+				sename, name, last_name, service, doctor, date, time, cost);
+
+			// Путь к файлу с записями
+			String^ recordsPath = System::IO::Path::Combine(
+				Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+				"individual-project-med-center",
+				"individual-project-med-center",
+				"project_ind",
+				"data",
+				"records.txt");
+
+			// Создаем директорию, если ее нет
+			System::IO::Directory::CreateDirectory(System::IO::Path::GetDirectoryName(recordsPath));
+
+			// Записываем в файл (добавляем в конец)
+			System::IO::File::AppendAllText(recordsPath, "Запись на прием:\n" + Environment::NewLine);
+			System::IO::File::AppendAllText(recordsPath, record + Environment::NewLine);
+
+			// Формируем строку с информацией для пользователя
+			String^ info = L"=== Информация о записи ===\n";
+			info += L"Фамилия: " + sename + L"\n";
+			info += L"Имя: " + name + L"\n";
+			info += L"Отчество: " + last_name + L"\n";
+			info += L"Услуга: " + service + L"\n";
+			info += L"Врач: " + doctor + L"\n";
+			info += L"Дата: " + date + L"\n";
+			info += L"Время: " + time + L"\n";
+			info += L"Стоимость: " + cost + L"\n";
+			info += L"===========================\n";
+			info += L"Запись успешно сохранена в файл!";
+
+			MessageBox::Show(info, L"Информация о записи", MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+			// Очищаем поля после успешной записи
+			ClearFields();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show(L"Произошла ошибка при записи: " + ex->Message,
+				L"Ошибка",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error);
+		}
+	}
+
+		   // Метод для очистки полей
+		   void ClearFields() {
+			   text_sename->Text = "";
+			   text_name->Text = "";
+			   text_last_name->Text = "";
+			   choose_a_service->SelectedIndex = -1;
+			   choose_a_doctor->Text = "";
+			   calendar->Text = "";
+			   time_of_reception->Text = "";
+			   cost_of_reception->Text = "";
+		   }
 
 	private: System::Void text_sename_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 		try {
@@ -1141,6 +1202,13 @@ private: System::Void text_document_TextChanged(System::Object^ sender, System::
 				text_document->Text = input->Substring(0, 7);
 				text_document->SelectionStart = 7;
 			}
+			// Визуальная индикация при неполном вводе
+			if (input->Length < 7) {
+				text_document->BackColor = Color::LightPink;
+			}
+			else {
+				text_document->BackColor = Color::White;
+			}
 		}
 	}
 	catch (Exception^ ex) {
@@ -1150,5 +1218,230 @@ private: System::Void text_document_TextChanged(System::Object^ sender, System::
 			MessageBoxIcon::Error);
 	}
 }
-};
+private: System::Void text_seria_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_seria->Text;
+
+		// Удаляем все нецифровые символы
+		String^ digitsOnly = "";
+		for each (Char c in input) {
+			if (Char::IsDigit(c)) {
+				digitsOnly += c.ToString();
+			}
+		}
+
+		// Ограничиваем 4 цифрами
+		if (digitsOnly->Length > 4) {
+			digitsOnly = digitsOnly->Substring(0, 4);
+		}
+
+		// Обновляем текст только если есть изменения
+		if (!input->Equals(digitsOnly)) {
+			text_seria->Text = digitsOnly;
+			text_seria->SelectionStart = digitsOnly->Length; // Курсор в конец
+		}
+
+		// Визуальная индикация при неполном вводе
+		if (digitsOnly->Length < 4) {
+			text_seria->BackColor = Color::LightPink;
+		}
+		else {
+			text_seria->BackColor = Color::White;
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: System::Void text_number_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_number->Text;
+
+		// Удаляем все нецифровые символы
+		String^ digitsOnly = "";
+		for each (Char c in input) {
+			if (Char::IsDigit(c)) {
+				digitsOnly += c.ToString();
+			}
+		}
+
+		// Ограничиваем 4 цифрами
+		if (digitsOnly->Length > 6) {
+			digitsOnly = digitsOnly->Substring(0, 6);
+		}
+
+		// Обновляем текст только если есть изменения
+		if (!input->Equals(digitsOnly)) {
+			text_number->Text = digitsOnly;
+			text_number->SelectionStart = digitsOnly->Length; // Курсор в конец
+		}
+
+		// Визуальная индикация при неполном вводе
+		if (digitsOnly->Length < 6) {
+			text_number->BackColor = Color::LightPink;
+		}
+		else {
+			text_number->BackColor = Color::White;
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: System::Void text_snils_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_snils->Text;
+
+		// Удаляем все нецифровые символы
+		String^ digitsOnly = "";
+		for each (Char c in input) {
+			if (Char::IsDigit(c)) {
+				digitsOnly += c.ToString();
+			}
+		}
+
+		// Ограничиваем 4 цифрами
+		if (digitsOnly->Length > 11) {
+			digitsOnly = digitsOnly->Substring(0, 11);
+		}
+
+		// Обновляем текст только если есть изменения
+		if (!input->Equals(digitsOnly)) {
+			text_snils->Text = digitsOnly;
+			text_snils->SelectionStart = digitsOnly->Length; // Курсор в конец
+		}
+
+		// Визуальная индикация при неполном вводе
+		if (digitsOnly->Length < 11) {
+			text_snils->BackColor = Color::LightPink;
+		}
+		else {
+			text_snils->BackColor = Color::White;
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: System::Void text_med_polis_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		String^ input = text_med_polis->Text;
+
+		// Удаляем все нецифровые символы
+		String^ digitsOnly = "";
+		for each (Char c in input) {
+			if (Char::IsDigit(c)) {
+				digitsOnly += c.ToString();
+			}
+		}
+
+		// Ограничиваем 4 цифрами
+		if (digitsOnly->Length > 16) {
+			digitsOnly = digitsOnly->Substring(0, 16);
+		}
+
+		// Обновляем текст только если есть изменения
+		if (!input->Equals(digitsOnly)) {
+			text_med_polis->Text = digitsOnly;
+			text_med_polis->SelectionStart = digitsOnly->Length; // Курсор в конец
+		}
+
+		// Визуальная индикация при неполном вводе
+		if (digitsOnly->Length < 16) {
+			text_med_polis->BackColor = Color::LightPink;
+		}
+		else {
+			text_med_polis->BackColor = Color::White;
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка обработки ввода: " + ex->Message,
+			"Ошибка",
+			MessageBoxButtons::OK,
+			MessageBoxIcon::Error);
+	}
+}
+private: void LoadServicesFromFile() {
+	try {
+		String^ costFilePath = System::IO::Path::Combine(
+			Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+			"individual-project-med-center",
+			"individual-project-med-center",
+			"project_ind",
+			"data",
+			"cost.txt");
+
+		if (!System::IO::File::Exists(costFilePath)) {
+			MessageBox::Show(L"Файл не найден по пути:\n" + costFilePath,
+				L"Ошибка",
+				MessageBoxButtons::OK,
+				MessageBoxIcon::Error);
+			return;
+		}
+
+		array<String^>^ allLines = System::IO::File::ReadAllLines(costFilePath, System::Text::Encoding::UTF8);
+		cost_of_reception->Items->Clear();
+
+		for each (String ^ line in allLines) {
+			array<String^>^ parts = line->Split('|');
+			if (parts->Length > 0) {
+				cost_of_reception->Items->Add(parts[0]->Trim());
+			}
+		}
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка загрузки услуг: " + ex->Message, "Ошибка",
+			MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
+}
+
+private: System::Void cost_of_reception_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		if (choose_a_service->SelectedItem == nullptr) {
+			return;
+		}
+
+		String^ selectedService = choose_a_service->SelectedItem->ToString();
+		String^ costFilePath = System::IO::Path::Combine(
+			Environment::GetFolderPath(Environment::SpecialFolder::Desktop),
+			"individual-project-med-center",
+			"individual-project-med-center",
+			"project_ind",
+			"data",
+			"cost.txt");
+
+		if (!System::IO::File::Exists(costFilePath)) {
+			MessageBox::Show("Файл с ценами не найден!", "Ошибка",
+				MessageBoxButtons::OK, MessageBoxIcon::Error);
+			return;
+		}
+
+		array<String^>^ allLines = System::IO::File::ReadAllLines(costFilePath);
+
+		for each (String ^ line in allLines) {
+			array<String^>^ parts = line->Split('|');
+			if (parts->Length == 2 && parts[0]->Trim() == selectedService) {
+				cost_of_reception->Text = parts[1]->Trim();
+				return;
+			}
+		}
+
+		cost_of_reception->Text = "";
+		MessageBox::Show("Стоимость для '" + selectedService + "' не найдена!", "Информация",
+			MessageBoxButtons::OK, MessageBoxIcon::Information);
+	}
+	catch (Exception^ ex) {
+		MessageBox::Show("Ошибка: " + ex->Message, "Ошибка",
+			MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
+}};
 }
